@@ -372,6 +372,41 @@ h3 {
 #reviews-list li p {
   margin: 0 0 10px;
 }
+
+/****New Additions***/
+#restaurant-hours-flex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+
+#restaurant-hours {
+  width: 100%;
+  max-width: 500px;
+}
+
+#restaurant-hours tr td:first-of-type{
+  width: 40%;
+}
+
+#restaurant-hours tr td:last-of-type{
+  width: 60%;
+}
+
 #restaurant-hours td {
   color: #666;
 }
+
+#restaurant-review-user {
+  font-weight: 70%;
+}
+
+.map-aria-description {
+  display: none;
+}
+
+#breadcrumb li:last-of-type a {
+  text-decoration-line: none;
+}
+

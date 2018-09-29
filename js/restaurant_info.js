@@ -86,16 +86,20 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
+
+//IMAGES //
+
   const image = document.getElementById('restaurant-img');
   image.className = 'restaurant-img';
   const imgurlbase = DBHelper.imageUrlForRestaurant(restaurant, "banners");
   //image.src = DBHelper.imageUrlForRestaurant(restaurant);
   const imgparts = imgurlbase.split(".");
-  const imgparts1x = imgparts[0] + "_1x." + imgparts[1];
-  const imgparts2x = imgparts[0] + "_2x." + imgparts[1];
+  const imgurl1x = imgparts[0] + "_1x." + imgparts[1];
+  const imgurl2x = imgparts[0] + "_2x." + imgparts[1];
   image.src= imgurl1x;
-  image.srcset = `${imgurl1x} 500w. ${imgurl2x} 800w`;
-  image.alt = restaurant.name + " restaruant promotional image";
+  image.srcset = `${imgurl1x} 500w, ${imgurl2x} 800w`;
+  image.alt = restaurant.name + " restaurant promotional image";
+  //li.append(image);
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -121,7 +125,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     row.appendChild(day);
 
     const time = document.createElement('td');
-    time.innerHTML = operatingHours[key].trime();
+    time.innerHTML = operatingHours[key].trim();
     row.appendChild(time);
 
     hours.appendChild(row);
@@ -185,7 +189,7 @@ fillBreadcrumb = (restaurant=self.restaurant) => {
   a.href = window.location;
   a.innerHTML = restaurant.name;
   //li.innerHTML = restaurant.name;
-  a.setAttribute('aria-current' 'page');
+  a.setAttribute("aria-current", "page");
   li.appendChild(a);
   breadcrumb.appendChild(li);
 }
