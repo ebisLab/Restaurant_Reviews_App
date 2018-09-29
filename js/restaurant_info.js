@@ -87,8 +87,15 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   address.innerHTML = restaurant.address;
 
   const image = document.getElementById('restaurant-img');
-  image.className = 'restaurant-img'
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  image.className = 'restaurant-img';
+  const imgurlbase = DBHelper.imageUrlForRestaurant(restaurant, "banners");
+  //image.src = DBHelper.imageUrlForRestaurant(restaurant);
+  const imgparts = imgurlbase.split(".");
+  const imgparts1x = imgparts[0] + "_1x." + imgparts[1];
+  const imgparts2x = imgparts[0] + "_2x." + imgparts[1];
+  image.src= imgurl1x;
+  image.srcset = `${imgurl1x} 500w. ${imgurl2x} 800w`;
+  image.alt = restaurant.name + " restaruant promotional image";
 
   const cuisine = document.getElementById('restaurant-cuisine');
   cuisine.innerHTML = restaurant.cuisine_type;
@@ -99,7 +106,7 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   }
   // fill reviews
   fillReviewsHTML();
-}
+};
 
 /**
  * Create restaurant operating hours HTML table and add it to the webpage.
@@ -110,16 +117,16 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
     const row = document.createElement('tr');
 
     const day = document.createElement('td');
-    day.innerHTML = key;
+    day.innerHTML = key.trim();
     row.appendChild(day);
 
     const time = document.createElement('td');
-    time.innerHTML = operatingHours[key];
+    time.innerHTML = operatingHours[key].trime();
     row.appendChild(time);
 
     hours.appendChild(row);
   }
-}
+};
 
 /**
  * Create all reviews HTML and add them to the webpage.
@@ -150,6 +157,7 @@ createReviewHTML = (review) => {
   const li = document.createElement('li');
   const name = document.createElement('p');
   name.innerHTML = review.name;
+  name.className = "restaurant-review-user";
   li.appendChild(name);
 
   const date = document.createElement('p');
@@ -173,7 +181,12 @@ createReviewHTML = (review) => {
 fillBreadcrumb = (restaurant=self.restaurant) => {
   const breadcrumb = document.getElementById('breadcrumb');
   const li = document.createElement('li');
-  li.innerHTML = restaurant.name;
+  const a = document.createElement("a");
+  a.href = window.location;
+  a.innerHTML = restaurant.name;
+  //li.innerHTML = restaurant.name;
+  a.setAttribute('aria-current' 'page');
+  li.appendChild(a);
   breadcrumb.appendChild(li);
 }
 
