@@ -1,17 +1,6 @@
-console.log('Service Worker: Registered');
+const cacheName ='v1';
 
-//Event Listener 
-self.addEventListener('install', function(e) {
-	e.waitUntil(
-		caches.open('v1').then(function(cache){
-			return cache.addAll(cacheFiles);
-		})
-
-		);
-
-});
-
-const cacheFiles = [
+const cacheAssets = [
 
 'restaurant.html', 
 'css/styles.css', 
@@ -19,7 +8,6 @@ const cacheFiles = [
 'js/main.js',
 'js/index.js',
 'js/restaurant_info.js', 
-'data/restaurantsljson',
 'img/1.jpg',
 'img/2.jpg',
 'img/3.jpg',
@@ -32,26 +20,44 @@ const cacheFiles = [
 'img/10.jpg'
 ];
 
-self.addEventListener('fetch', function(e) {
-	e.respondWith(
-		caches.match(e.request).then(function(response) {
-			if(response) {
-				console.log('Found', e.request, 'in cache');
-				return response;
-			}
-			else {
-				console.log('Could not find', e.request, 'in cache, FETCHING');
-				return fetch(e.request)
-				.then(function(response) {
-					caches.open('v1').then(function(cache) {
-						cache.put(e.request, response);
-					})
-					return response;
+//Call event
+self.addEventListener('install', (e) =>{
+	console.log('Service Worker: Installed');
+
+	e.waitUntil(
+		caches
+			.open(cacheName)
+			.then(cache => {
+				console.log('Service Worker: Caching Files');
+				cache.addAll(cacheAssets);
+			})
+			.then(() => self.skipWaiting())
+		);
+});
+
+//Call Activate event
+self.addEventListener('activate', (e) =>{
+	console.log('Service Worker: Activated');
+
+	//reove unwanted caches
+	e.waitUntil(
+		caches.keys().then(cacheNames => {
+			return Promise.all(
+				cacheNames.map(cache => {
+					if(cache !== cacheName) {
+						console.log('Service Worker: Clearing Old Cache');
+						return caches.delete(cache);
+					}
 				})
-				.catch(function(err) {
-					console.log(err);
-				});
-			}
+				);
 		})
 		);
 });
+
+//Call Fetch Event
+self.addEventListener('fetch', e => {
+	console.log('Service Worker: Fetching');
+	e.respondWith(
+		fetch(e.request).catch(() => caches.match(e.request))
+		);
+})
