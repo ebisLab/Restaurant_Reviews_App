@@ -45,6 +45,12 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
   display: flex; /**/
   flex-direction: column; /**/
 }
+
+.button-container {
+text-align: center;
+padding-left: 30px;
+}
+
 #footer {
   background-color: #444;
   color: #aaa;

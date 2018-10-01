@@ -156,33 +156,43 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  * Create restaurant HTML.
  */
 createRestaurantHTML = (restaurant) => {
-  const li = document.createElement('li');
+ const li = document.createElement('li');
 
-  const image = document.createElement('img');
-  image.className = 'restaurant-img';
-  image.src = DBHelper.imageUrlForRestaurant(restaurant);
-  li.append(image);
+ const image = document.createElement('img');
+ image.className = 'restaurant-img';
+ image.src = DBHelper.imageUrlForRestaurant(restaurant);
+ li.append(image);
 
-  const name = document.createElement('h1');
-  name.innerHTML = restaurant.name;
-  li.append(name);
 
-  const neighborhood = document.createElement('p');
-  neighborhood.innerHTML = restaurant.neighborhood;
-  li.append(neighborhood);
 
-  const address = document.createElement('p');
-  address.innerHTML = restaurant.address;
-  li.append(address);
 
-  const more = document.createElement('a');
-  more.innerHTML = 'View Detailing';
-  more.href = DBHelper.urlForRestaurant(restaurant);
-  more.tabIndex = '3';
-  li.append(more);
+ const name = document.createElement('h1');
+ name.innerHTML = restaurant.name;
+ li.append(name);
 
-  return li
+ const neighborhood = document.createElement('p');
+ neighborhood.innerHTML = restaurant.neighborhood;
+ li.append(neighborhood);
+
+ const address = document.createElement('p');
+ address.innerHTML = restaurant.address;
+ li.append(address);
+
+ const more = document.createElement('a');
+ more.innerHTML = 'View Detailing';
+ more.href = DBHelper.urlForRestaurant(restaurant);
+ more.tabIndex = '3';
+ li.append(more);
+ return li;
+
+ const divTest = document.createElement('div');
+ divTest.className = "button-container";
+ divTest.innerHTML = more;
+ li.append(divTest);
 }
+
+
+
 
 /**
  * Add markers for current restaurants to the map.
