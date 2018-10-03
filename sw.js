@@ -55,16 +55,18 @@ self.addEventListener('activate', (e) =>{
 });
 
 //Call Fetch Event
+/*Offline caching help from 
+ *https://developers.google.com/web/fundamentals/instant-and-offline/offline-cookbook/
+ */
 self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request)
-      .then(function(response) {
-        // Cache hit - return response
-        if (response) {
-          return response;
-        }
-        return fetch(event.request);
-      }
-    )
-  );
+	event.respondWith(
+		caches.open(cacheName).then(function(cache) {
+			return cache.match(event.request).then(function(response) {
+				return response || fetch(event.request).then(function(response) {
+					cache.put(event.request, response.clone());
+					return response;
+				});
+			});
+		})
+	);
 });
